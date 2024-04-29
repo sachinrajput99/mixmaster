@@ -7,16 +7,15 @@ const newsletterUrl = "https://www.course-api.com/cocktails-newsletter";
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-
-  // handling error using try catch
+  console.log("request",request);
+console.log("formdata",formData);
+console.log("data",data);
+  // handling error by ourselves using try catch
   // so avoid user to redirecting to single page error or global page error
   try {
     const response = await axios.post(newsletterUrl, data); // sends the data to the newsletterUrl link
-
     // console.log(response);
-
     toast.success(response.data.msg); // toast notification
-
     return redirect("/"); // redirects to home page
   } catch (error) {
     toast.error(error?.response?.data?.msg);
@@ -26,9 +25,8 @@ export const action = async ({ request }) => {
 };
 const Newsletter = () => {
   // changing the submit button according to  navigation's state
-
   const navigation = useNavigation();
-
+  // console.log(navigation);
   const isSubmitting = navigation.state === "submitting";
 
   return (

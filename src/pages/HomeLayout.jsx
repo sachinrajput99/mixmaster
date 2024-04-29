@@ -11,11 +11,11 @@ const HomeLayout = () => {
       <section className="page">
         {/* class page sare pages k layout smbhata hai */}
         {/* koki har ek pages Outlet ko present kr rha hota hai */}
-
         {/* <Outlet context="hello"/> */}
-
         {/* setting the loading icon when data is being fetched */}
         {isPageLoading ? <div className="loading" /> : <Outlet />}
+
+        {/* outlet render the children inside of it  */}
       </section>
     </div>
   );

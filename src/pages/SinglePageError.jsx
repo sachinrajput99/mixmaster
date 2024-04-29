@@ -1,6 +1,8 @@
 import React from "react";
 import { useRouteError } from "react-router-dom";
-
+// page k and koi bhi error ayega to yh component rnder hoga
+// for example url m problem h
+// axios ka error
 const SinglePageError = () => {
   const error = useRouteError();
   console.log(error);

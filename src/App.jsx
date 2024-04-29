@@ -1,16 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-import {
-  About,
-  Cocktail,
-  HomeLayout,
-  Landing,
-  Newsletter,
-  Error,
-  SinglePageError,
-} from "./pages";
+import {  About,  Cocktail,  HomeLayout,  Landing,  Newsletter,  Error,  SinglePageError,} from "./pages";
 import { loader as landingLoader } from "./pages/Landing";
 import { loader as SingleCocktailLoader } from "./pages/Cocktail";
 import { action as newsLetterAction } from "./pages/Newsletter";
@@ -32,17 +23,17 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        index: true,
+        index: true,//this page is displayed at "/" (home route)
         // path: "landing",
         // error page for individual page
-        errorElement: <SinglePageError />,
-        loader: landingLoader(queryClient),
-        element: <Landing />,
+        errorElement: <SinglePageError />,//error page 
+        loader: landingLoader(queryClient),//loads  /fetches the data even before the page is rendered
+        element: <Landing />,//component to be displayed
       },
       {
-        path: "cocktail/:id",
+        path: "cocktail/:id",//loaders also
         errorElement: <SinglePageError />,
-        loader: SingleCocktailLoader(queryClient),
+        loader: SingleCocktailLoader(queryClient),//passing queryClient as in argument to loader  so as to use it in loader function
         element: <Cocktail />,
       },
       {
@@ -67,3 +58,4 @@ const App = () => {
   );
 };
 export default App;
+

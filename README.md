@@ -28,8 +28,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <h2>home page</h2>,
+    path: "/",//local domain
+    element: <h2>home page</h2>,//element to be displayed
   },
   {
     path: "/about",
@@ -78,6 +78,7 @@ import {
 ```
 
 #### Link Component
+<!-- navigates user to different page -->
 
 HomeLayout.jsx
 
@@ -117,7 +118,7 @@ App.jsx
 ```js
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/",//parent  route
     element: <HomeLayout />,
     children: [
       {
@@ -149,8 +150,9 @@ const HomeLayout = () => {
   return (
     <div>
       <nav>navbar</nav>
-      <Outlet />
+      <Outlet />      //yha pr child component (route)dikhega
     </div>
+
   );
 };
 export default HomeLayout;
@@ -161,7 +163,7 @@ App.jsx
 ```js
 {
   index:true
-  element: <Landing />,
+  element: <Landing />,//index route pr yh landing component wil show 
 }
 ```
 
@@ -374,7 +376,7 @@ const HomeLayout = () => {
   return (
     <>
       <Navbar />
-      <section className="page">
+      <section className="page">      //css for outlet pages
         <Outlet />
       </section>
     </>
@@ -571,7 +573,7 @@ export const loader = async () => {
 };
 
 const Landing = () => {
-  const { searchTerm, drinks } = useLoaderData();
+  const { searchTerm, drinks } = useLoaderData();//retrieving data from loader using this hook
   console.log(drinks);
   return <h1>Landing page</h1>;
 };
@@ -619,7 +621,7 @@ import { useRouteError } from "react-router-dom";
 const SinglePageError = () => {
   const error = useRouteError();
   console.log(error);
-  return <h2>{error.message}</h2>;
+  return <h2>{error.message}</h2>;//contains the error message
 };
 export default SinglePageError;
 ```
@@ -683,7 +685,7 @@ export default CocktailList;
 import { Link, useOutletContext } from "react-router-dom";
 import Wrapper from "../assets/wrappers/CocktailCard";
 const CocktailCard = ({ image, name, id, info, glass }) => {
-  // const data = useOutletContext();
+  // const data = useOutletContext(); //allows us to pass data from parent to any component in outlet
   // console.log(data);
   return (
     <Wrapper>
@@ -714,7 +716,7 @@ HomeLayout.jsx
 
 ```js
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar";//hook form react router to check loading idle state
 import { useNavigation } from "react-router-dom";
 const HomeLayout = () => {
   const navigation = useNavigation();
@@ -727,7 +729,7 @@ const HomeLayout = () => {
         {isPageLoading ? (
           <div className="loading" />
         ) : (
-          <Outlet context={{ value }} />
+          <Outlet context={{ value }} />//we can directly pass the value from here to  any component  that shows in place of outlet
         )}
       </section>
     </>
@@ -989,6 +991,7 @@ const Newsletter = () => {
 
 export default Newsletter;
 ```
+//form default behaviour
 
 #### Default Behavior
 
@@ -1023,7 +1026,7 @@ Newsletter.jsx
 ```js
 import { Form } from 'react-router-dom';
 
-export const action = async ({ request }) => {
+export const action = async ({ request }) => {//request  contain data from from 
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   console.log(data);
@@ -1233,13 +1236,13 @@ App.jsx
 
 ```js
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';//react query
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 5,//cache will delete after 5 minute
     },
   },
 });
@@ -1265,7 +1268,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const searchCocktailsQuery = (searchTerm) => {
   return {
-    queryKey: ["search", searchTerm || "all"],
+    queryKey: ["search", searchTerm || "all"],//if search term is valid then key is search term otherwise "all
     queryFn: async () => {
       const response = await axios.get(`${cocktailSearchUrl}${searchTerm}`);
       return response.data.drinks;
@@ -1307,7 +1310,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: landingLoader(queryClient),
+        loader: landingLoader(queryClient),//calling the landing loader function with argument queryClient
         element: <Landing />,
       },
     ],
@@ -1323,7 +1326,7 @@ export const loader =
   async ({ request }) => {
     const url = new URL(request.url);
     const searchTerm = url.searchParams.get("search") || "";
-    await queryClient.ensureQueryData(searchCocktailsQuery(searchTerm));
+    await queryClient.ensureQueryData(searchCocktailsQuery(searchTerm));//checks if there is data in cache if not then makes a request to the server
     // const response = await axios.get(`${cocktailSearchUrl}${searchTerm}`);
     return { searchTerm };
   };

@@ -21,9 +21,11 @@ const singleCocktailsQuery = (id) => {
 export const loader =
   (queryClient) =>
   async ({ params }) => {
+    //this  contains a giant object with different value accessible
+    // async (data => {//this  contains a giant object with different value accessible
     // console.log(params);
     const { id } = params;
-    // const response = await axios.get(`${singleCocktailUrl}${id}`);
+    // const response = await axios.get(`${singleCocktailUrl}${id}`);//fetching data using regular axios call
     // const { data } = await axios.get(`${singleCocktailUrl}${id}`);
     // console.log(data);
     await queryClient.ensureQueryData(singleCocktailsQuery(id));
@@ -49,10 +51,13 @@ const Cocktail = () => {
     strInstructions: instructions,
   } = singleDrink;
 
-  // console.log(singleDrink);
+  const validIngredients = Object.keys(singleDrink)
+    .filter(
+      (key) => key.startsWith("strIngredient") && singleDrink[key] !== null
+    )
+    .map((key) => singleDrink[key]);
 
-  const ingredient1 = singleDrink.strIngredient1;
-  // console.log(ingredient1);
+  // console.log(singleDrink["strIngredient2"]);
 
   return (
     <Wrapper>
@@ -80,6 +85,15 @@ const Cocktail = () => {
           <p>
             <span className="drink-data">glass:</span>
             {glass}
+          </p>
+          <p>
+            <span className="drink-data">ingredient:</span>
+            {validIngredients.map((ingredient, index) => (
+              <span className="ing" key={index}>
+                {ingredient}
+                {index < validIngredients.length - 1 ? "," : ""}
+              </span>
+            ))}
           </p>
           <p>
             <span className="drink-data">instructions:</span>

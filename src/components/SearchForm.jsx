@@ -15,9 +15,9 @@ const SearchForm = ({ searchTerm }) => {
           defaultValue={searchTerm}
         />
         <button type="submit" className="btn" disabled={isSubmitting}>
-          {isSubmitting ? "submitting" : "submit"}
+          {isSubmitting ? "searching..." : "search"}
         </button>
-        {/* submit button click krte hi url change hoga ,url ke query se search term lenge with the help of (searchParams) and them cocktail ko display krwa denge  */}
+        {/* search button click krte hi url change hoga ,url ke query se search term lenge with the help of (searchParams) and them cocktail ko display krwa denge  */}
         {/* is tarike se content search ho jayega */}
       </Form>
     </Wrapper>
